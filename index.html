@@ -121,6 +121,26 @@
   .ponto-ext { background-color: var(--cor-ext); }
   .ponto-ext:hover, .ponto-ext:active { background-color: var(--cor-ext-escuro); }
 
+  /* Áreas de destaque (aparecem fraquinho ao passar o mouse) */
+  .area-bloco {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .area-bloco.ativa {
+    opacity: 0.60;
+  }
+
+  .area-a { background-color: var(--cor-a); }
+  .area-b { background-color: var(--cor-b); }
+  .area-c { background-color: var(--cor-c); }
+  .area-d { background-color: var(--cor-d); }
+  .area-ext { background-color: var(--cor-ext); }
+
   .legenda {
     max-width: 700px;
     margin: 0 auto;
@@ -283,20 +303,26 @@
   <div class="mapa-imagem-wrapper">
     <img src="foto-aerea-campus.jpg" alt="Mapa aéreo do campus">
 
-    <div class="ponto ponto-ext" style="top: 23%; left: 39%;" onclick="abrirModal('externo')">Ext</div>
-    <div class="ponto ponto-c" style="top: 35%; left: 44%;" onclick="abrirModal('blocoC')">C</div>
-    <div class="ponto ponto-b" style="top: 44%; left: 44%;" onclick="abrirModal('blocoB')">B</div>
-    <div class="ponto ponto-a" style="top: 55%; left: 44%;" onclick="abrirModal('blocoA')">A</div>
-    <div class="ponto ponto-d" style="top: 41%; left: 69%;" onclick="abrirModal('blocoD')">D</div>
+    <div class="area-bloco area-ext" id="area-externo" style="top: 23%; left: 39%; width: 20%; height: 10%;"></div>
+    <div class="area-bloco area-c" id="area-blocoC" style="top: 36%; left: 43%; width: 32%; height: 5%;"></div>
+    <div class="area-bloco area-b" id="area-blocoB" style="top: 45%; left: 44%; width: 32%; height: 5%;"></div>
+    <div class="area-bloco area-a" id="area-blocoA" style="top: 55%; left: 44%; width: 32%; height: 5%;"></div>
+    <div class="area-bloco area-d" id="area-blocoD" style="top: 41%; left:71%; width: 12%; height: 15%;"></div>
+
+    <div class="ponto ponto-ext" style="top: 23%; left: 39%;" onclick="abrirModal('externo')" onmouseenter="destacarArea('area-externo', true)" onmouseleave="destacarArea('area-externo', false)">Ext</div>
+    <div class="ponto ponto-c" style="top: 35%; left: 44%;" onclick="abrirModal('blocoC')" onmouseenter="destacarArea('area-blocoC', true)" onmouseleave="destacarArea('area-blocoC', false)">C</div>
+    <div class="ponto ponto-b" style="top: 44%; left: 44%;" onclick="abrirModal('blocoB')" onmouseenter="destacarArea('area-blocoB', true)" onmouseleave="destacarArea('area-blocoB', false)">B</div>
+    <div class="ponto ponto-a" style="top: 55%; left: 44%;" onclick="abrirModal('blocoA')" onmouseenter="destacarArea('area-blocoA', true)" onmouseleave="destacarArea('area-blocoA', false)">A</div>
+    <div class="ponto ponto-d" style="top: 41%; left: 69%;" onclick="abrirModal('blocoD')" onmouseenter="destacarArea('area-blocoD', true)" onmouseleave="destacarArea('area-blocoD', false)">D</div>
   </div>
 </div>
 
 <div class="legenda">
-  <div class="legenda-item" onclick="abrirModal('blocoA')"><div class="legenda-bolinha a">A</div> Bloco A</div>
-  <div class="legenda-item" onclick="abrirModal('blocoB')"><div class="legenda-bolinha b">B</div> Bloco B</div>
-  <div class="legenda-item" onclick="abrirModal('blocoC')"><div class="legenda-bolinha c">C</div> Bloco C</div>
-  <div class="legenda-item" onclick="abrirModal('blocoD')"><div class="legenda-bolinha d">D</div> Bloco D</div>
-  <div class="legenda-item" onclick="abrirModal('externo')"><div class="legenda-bolinha ext">Ext</div> Áreas Externas</div>
+  <div class="legenda-item" onclick="abrirModal('blocoA')" onmouseenter="destacarArea('area-blocoA', true)" onmouseleave="destacarArea('area-blocoA', false)"><div class="legenda-bolinha a">A</div> Bloco A</div>
+  <div class="legenda-item" onclick="abrirModal('blocoB')" onmouseenter="destacarArea('area-blocoB', true)" onmouseleave="destacarArea('area-blocoB', false)"><div class="legenda-bolinha b">B</div> Bloco B</div>
+  <div class="legenda-item" onclick="abrirModal('blocoC')" onmouseenter="destacarArea('area-blocoC', true)" onmouseleave="destacarArea('area-blocoC', false)"><div class="legenda-bolinha c">C</div> Bloco C</div>
+  <div class="legenda-item" onclick="abrirModal('blocoD')" onmouseenter="destacarArea('area-blocoD', true)" onmouseleave="destacarArea('area-blocoD', false)"><div class="legenda-bolinha d">D</div> Bloco D</div>
+  <div class="legenda-item" onclick="abrirModal('externo')" onmouseenter="destacarArea('area-externo', true)" onmouseleave="destacarArea('area-externo', false)"><div class="legenda-bolinha ext">Ext</div> Áreas Externas</div>
 </div>
 
 <footer>UniSALESIANO Araçatuba • Universo UniSALESIANO</footer>
@@ -345,8 +371,8 @@
           cursos: [
             { nome: "Administração", local: "Sala 20" },
             { nome: "Ciências Contábeis", local: "Sala 20" },
-            { nome: "Engenharia da Computação", local: "Sala 13" },
-            { nome: "Tecnologia em Análise e Desenvolvimento de Sistemas", local: "Sala 23" },
+            { nome: "Engenharia da Computação", local: "Sala 23" },
+            { nome: "Tecnologia em Análise e Desenvolvimento de Sistemas", local: "Sala 13" },
             { nome: "Tecnologia em Jogos Digitais", local: "Sala 19" }
           ]
         },
@@ -399,12 +425,20 @@
           nome: "Ambiente Externo",
           cursos: [
             { nome: "Medicina Veterinária", local: "Hospital Veterinário" },
-            { nome: "Engenharia Civil", local: "Laboratório Externo de Engenharias" }
+            { nome: "Engenharia Civil", local: "Oficina de Engenharia" },
+            { nome: "Engenharia Elétrica", local: "Oficina de Engenharia" },
+            { nome: "Engenharia Mecânica", local: "Oficina de Engenharia" },
+            { nome: "Engenharia Mecatrônica", local: "Oficina de Engenharia" }
           ]
         }
       ]
     }
   };
+
+  function destacarArea(idArea, ativo) {
+    const area = document.getElementById(idArea);
+    if (area) area.classList.toggle('ativa', ativo);
+  }
 
   function abrirModal(chave) {
     const info = dados[chave];
