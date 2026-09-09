@@ -309,20 +309,20 @@
     <div class="area-bloco area-a" id="area-blocoA" style="top: 55%; left: 44%; width: 32%; height: 5%;"></div>
     <div class="area-bloco area-d" id="area-blocoD" style="top: 41%; left:71%; width: 12%; height: 15%;"></div>
 
-    <div class="ponto ponto-ext" style="top: 23%; left: 39%;" onclick="abrirModal('externo')" onmouseenter="destacarArea('area-externo', true)" onmouseleave="destacarArea('area-externo', false)">Ext</div>
-    <div class="ponto ponto-c" style="top: 35%; left: 44%;" onclick="abrirModal('blocoC')" onmouseenter="destacarArea('area-blocoC', true)" onmouseleave="destacarArea('area-blocoC', false)">C</div>
-    <div class="ponto ponto-b" style="top: 44%; left: 44%;" onclick="abrirModal('blocoB')" onmouseenter="destacarArea('area-blocoB', true)" onmouseleave="destacarArea('area-blocoB', false)">B</div>
-    <div class="ponto ponto-a" style="top: 55%; left: 44%;" onclick="abrirModal('blocoA')" onmouseenter="destacarArea('area-blocoA', true)" onmouseleave="destacarArea('area-blocoA', false)">A</div>
-    <div class="ponto ponto-d" style="top: 41%; left: 69%;" onclick="abrirModal('blocoD')" onmouseenter="destacarArea('area-blocoD', true)" onmouseleave="destacarArea('area-blocoD', false)">D</div>
+    <div class="ponto ponto-ext" style="top: 23%; left: 39%;" onclick="tocarBloco('externo')" onmouseenter="destacarArea('area-externo', true)" onmouseleave="destacarArea('area-externo', false)">Ext</div>
+    <div class="ponto ponto-c" style="top: 35%; left: 44%;" onclick="tocarBloco('blocoC')" onmouseenter="destacarArea('area-blocoC', true)" onmouseleave="destacarArea('area-blocoC', false)">C</div>
+    <div class="ponto ponto-b" style="top: 44%; left: 44%;" onclick="tocarBloco('blocoB')" onmouseenter="destacarArea('area-blocoB', true)" onmouseleave="destacarArea('area-blocoB', false)">B</div>
+    <div class="ponto ponto-a" style="top: 55%; left: 44%;" onclick="tocarBloco('blocoA')" onmouseenter="destacarArea('area-blocoA', true)" onmouseleave="destacarArea('area-blocoA', false)">A</div>
+    <div class="ponto ponto-d" style="top: 41%; left: 69%;" onclick="tocarBloco('blocoD')" onmouseenter="destacarArea('area-blocoD', true)" onmouseleave="destacarArea('area-blocoD', false)">D</div>
   </div>
 </div>
 
 <div class="legenda">
-  <div class="legenda-item" onclick="abrirModal('blocoA')" onmouseenter="destacarArea('area-blocoA', true)" onmouseleave="destacarArea('area-blocoA', false)"><div class="legenda-bolinha a">A</div> Bloco A</div>
-  <div class="legenda-item" onclick="abrirModal('blocoB')" onmouseenter="destacarArea('area-blocoB', true)" onmouseleave="destacarArea('area-blocoB', false)"><div class="legenda-bolinha b">B</div> Bloco B</div>
-  <div class="legenda-item" onclick="abrirModal('blocoC')" onmouseenter="destacarArea('area-blocoC', true)" onmouseleave="destacarArea('area-blocoC', false)"><div class="legenda-bolinha c">C</div> Bloco C</div>
-  <div class="legenda-item" onclick="abrirModal('blocoD')" onmouseenter="destacarArea('area-blocoD', true)" onmouseleave="destacarArea('area-blocoD', false)"><div class="legenda-bolinha d">D</div> Bloco D</div>
-  <div class="legenda-item" onclick="abrirModal('externo')" onmouseenter="destacarArea('area-externo', true)" onmouseleave="destacarArea('area-externo', false)"><div class="legenda-bolinha ext">Ext</div> Áreas Externas</div>
+  <div class="legenda-item" onclick="tocarBloco('blocoA')" onmouseenter="destacarArea('area-blocoA', true)" onmouseleave="destacarArea('area-blocoA', false)"><div class="legenda-bolinha a">A</div> Bloco A</div>
+  <div class="legenda-item" onclick="tocarBloco('blocoB')" onmouseenter="destacarArea('area-blocoB', true)" onmouseleave="destacarArea('area-blocoB', false)"><div class="legenda-bolinha b">B</div> Bloco B</div>
+  <div class="legenda-item" onclick="tocarBloco('blocoC')" onmouseenter="destacarArea('area-blocoC', true)" onmouseleave="destacarArea('area-blocoC', false)"><div class="legenda-bolinha c">C</div> Bloco C</div>
+  <div class="legenda-item" onclick="tocarBloco('blocoD')" onmouseenter="destacarArea('area-blocoD', true)" onmouseleave="destacarArea('area-blocoD', false)"><div class="legenda-bolinha d">D</div> Bloco D</div>
+  <div class="legenda-item" onclick="tocarBloco('externo')" onmouseenter="destacarArea('area-externo', true)" onmouseleave="destacarArea('area-externo', false)"><div class="legenda-bolinha ext">Ext</div> Áreas Externas</div>
 </div>
 
 <footer>UniSALESIANO Araçatuba • Universo UniSALESIANO</footer>
@@ -440,6 +440,10 @@
     if (area) area.classList.toggle('ativa', ativo);
   }
 
+  function tocarBloco(chave) {
+  destacarArea('area-' + chave, true);
+  setTimeout(() => abrirModal(chave), 150);
+}
   function abrirModal(chave) {
     const info = dados[chave];
     if (!info) return;
@@ -486,8 +490,9 @@
   }
 
   function fecharModal() {
-    document.getElementById('overlay').classList.remove('ativo');
-  }
+  document.getElementById('overlay').classList.remove('ativo');
+  document.querySelectorAll('.area-bloco.ativa').forEach(el => el.classList.remove('ativa')); // ← nova linha
+}
 
   document.getElementById('overlay').addEventListener('click', function(e) {
     if (e.target === this) fecharModal();
